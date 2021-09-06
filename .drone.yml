@@ -1,0 +1,50 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: yamllint
+    image: sdesbure/yamllint:latest
+    commands:
+      - yamllint .drone.yml
+  - name: restore-cache
+    image: plugins/s3-cache:1
+    settings:
+      pull: true
+      endpoint: https://s3.us-west-002.backblazeb2.com
+      access_key:
+        from_secret: s3_access_key
+      secret_key:
+        from_secret: s3_secret_key
+      restore: true
+  - name: cargo-build
+    image: rust:1.54
+    environment:
+      CARGO_HOME: cargo-home
+    commands:
+      - cargo build
+  - name: rebuild-cache
+    image: plugins/s3-cache:1
+    settings:
+      pull: true
+      endpoint: https://s3.us-west-002.backblazeb2.com
+      access_key:
+        from_secret: s3_access_key
+      secret_key:
+        from_secret: s3_secret_key
+      rebuild: true
+      mount:
+        - cargo-home
+        - target
+  - name: flush-cache
+    image: plugins/s3-cache:1
+    settings:
+      pull: true
+      endpoint: https://s3.us-west-002.backblazeb2.com
+      access_key:
+        from_secret: s3_access_key
+      secret_key:
+        from_secret: s3_secret_key
+      flush: true
+      flush_age: 14
