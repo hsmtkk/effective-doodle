@@ -12,7 +12,7 @@ steps:
     image: plugins/s3-cache:1
     settings:
       pull: true
-      endpoint: https://s3.us-west-002.backblazeb2.com
+      endpoint: https://gateway.ap1.storjshare.io
       access_key:
         from_secret: s3_access_key
       secret_key:
@@ -41,7 +41,7 @@ steps:
     image: plugins/s3-cache:1
     settings:
       pull: true
-      endpoint: https://s3.us-west-002.backblazeb2.com
+      endpoint: https://gateway.ap1.storjshare.io
       access_key:
         from_secret: s3_access_key
       secret_key:
@@ -54,7 +54,7 @@ steps:
     image: plugins/s3-cache:1
     settings:
       pull: true
-      endpoint: https://s3.us-west-002.backblazeb2.com
+      endpoint: https://gateway.ap1.storjshare.io
       access_key:
         from_secret: s3_access_key
       secret_key:
