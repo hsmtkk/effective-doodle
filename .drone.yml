@@ -18,12 +18,25 @@ steps:
       secret_key:
         from_secret: s3_secret_key
       restore: true
+  - name: cargo-test
+    image: rust:1.54
+    environment:
+      CARGO_HOME: cargo-home
+    commands:
+      - cargo test
   - name: cargo-build
     image: rust:1.54
     environment:
       CARGO_HOME: cargo-home
     commands:
       - cargo build
+  - name: cargo-run
+    image: rust:1.54
+    environment:
+      CARGO_HOME: cargo-home
+      RUST_LOG: debug
+    commands:
+      - cargo run
   - name: rebuild-cache
     image: plugins/s3-cache:1
     settings:
